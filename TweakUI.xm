@@ -8,8 +8,8 @@ NSInteger KeyboardHeight = 46, KeyboardBound = -18;
 //Keyboard options
 BOOL isHigherKeyboard, isDarkKeyboard, isNonLatinKeyboard;
 
-//Camera Options
-BOOL isCameraBottomSet, isCameraUI11, isCameraZoomFlip11;
+//Camera
+BOOL BuerIsNewCameraUI;
 
 BOOL isPIP;
 
@@ -153,29 +153,79 @@ extern "C" Boolean MGGetBoolAnswer(CFStringRef);
 }
 %end
 
-// Camera UI Set
-%group CameraUISet
+// Camera Style iPhone 13
+%group CameraNewUI
 %hook CAMCaptureCapabilities
--(BOOL)isCTMSupported {
-    return isCameraUI11;
-}
-%end
 
-%hook CAMFlipButton
--(BOOL)_useCTMAppearance {
-    return isCameraZoomFlip11;
+-(long long)back1080pMaxFPS {
+    return 59;
+}
+
+-(BOOL)isBackSingleCameraPortraitModeSupported {
+    return YES;
+}
+
+-(BOOL)isPortraitModeSupported {
+    return YES;
+}
+
+-(bool) sfCameraFontSupported {
+    return YES;
+}
+
+-(bool)isLivePhotoAutoModeSupported {
+    return YES;
+}
+
+-(BOOL)isHDR10BitVideoSupported {
+    return YES;
+}
+
+-(BOOL)isHDR10BitVideoSupports60FPS {
+    return YES;
+}
+
+-(BOOL)isCTMSupportSupressed {
+    return NO;
+}
+
+-(BOOL)deviceSupportsCTM {
+    return YES;
+}
+
+-(BOOL)isZoomPlatterSupported {
+    return YES;
+}
+-(long long) zoomDialStyle {
+    return 1;
+}
+
+-(bool)isImageAnalysisSupported {
+    return YES;
+}
+
+-(bool)imageAnalysisShowsInactiveTextRegions {
+    return YES;
+}
+
+-(bool)isImageAnalysisButtonAlwaysVisible {
+    return YES;
+}
+
+-(BOOL)isCTMSupported {
+    return YES;
 }
 %end
 
 %hook CAMViewfinderViewController
 -(BOOL)_shouldUseZoomControlInsteadOfSlider {
-    return isCameraZoomFlip11;
+    return YES;
 }
 %end
 %end
 
 // Camera Bottom Inset
-%group CameraBottomSet
+%group CameraBottomInset
 %hook CAMZoomControl
 - (void)setFrame:(CGRect)frame {
     %orig(CGRectSetY(frame, frame.origin.y - bottomInset));
@@ -216,10 +266,8 @@ static void updatePrefs() {
             isHigherKeyboard = boolValueForKey(@"highKeyboard", prefs);
             isDarkKeyboard = boolValueForKey(@"darkKeyboard", prefs);
             isNonLatinKeyboard = boolValueForKey(@"nonLatinKeyboard", prefs);
-            // More options:
-            isCameraBottomSet = boolValueForKey(@"cameraBottomSet", prefs);
-            isCameraUI11 = boolValueForKey(@"cameraUI11", prefs);
-            isCameraZoomFlip11 = boolValueForKey(@"cameraZoomFlip11", prefs);
+            // Camera:
+            BuerIsNewCameraUI = boolValueForKey(@"BuerIsNewCameraUI", prefs);
             //Per-App Customize
             NSString const *mainAppID = [NSBundle mainBundle].bundleIdentifier;
             NSDictionary const *appCustomize = [prefs objectForKey:mainAppID];
@@ -262,9 +310,10 @@ static void updatePrefs() {
                     bottomInset += 2;
                     %init(FixTwitter);
                 } else if (appID(@"com.apple.camera")) {
-                    %init(CameraUISet);
-                    if (isCameraBottomSet)
-                        %init(CameraBottomSet);
+                    if (BuerIsNewCameraUI) {
+                        %init(CameraNewUI);
+                        %init(CameraBottomInset);
+                    }
                 }
 
                 if (screenMode == 0) {

@@ -6,7 +6,7 @@
         <array>
             <dict>
                 <key>label</key>
-                <string>✯ Camera UI</string>
+                <string>✯ Camera</string>
                 <key>cell</key>
                 <string>PSGroupCell</string>
             </dict>
@@ -14,41 +14,13 @@
                 <key>cellClass</key>
                 <string>HalFiPadSwitchCell</string>
                 <key>label</key>
-                <string>◦ Bottom Inset</string>
+                <string>◦ Style iPhone 13</string>
                 <key>key</key>
-                <string>cameraBottomSet</string>
+                <string>BuerIsNewCameraUI</string>
                 <key>defaults</key>
                 <string>com.hius.HalFiPadPrefs</string>
                 <key>default</key>
                 <false/>
-                <key>PostNotification</key>
-                <string>com.hius.HalFiPadPrefs.settingschanged</string>
-            </dict>
-            <dict>
-                <key>cellClass</key>
-                <string>HalFiPadSwitchCell</string>
-                <key>label</key>
-                <string>◦ Style iPhone 11 [beta]</string>
-                <key>key</key>
-                <string>cameraUI11</string>
-                <key>defaults</key>
-                <string>com.hius.HalFiPadPrefs</string>
-                <key>default</key>
-                <false/>
-                <key>PostNotification</key>
-                <string>com.hius.HalFiPadPrefs.settingschanged</string>
-            </dict>
-            <dict>
-                <key>cellClass</key>
-                <string>HalFiPadSwitchCell</string>
-                <key>label</key>
-                <string>◦ Zoom / Flips Control</string>
-                <key>key</key>
-                <string>cameraZoomFlip11</string>
-                <key>defaults</key>
-                <string>com.hius.HalFiPadPrefs</string>
-                <key>default</key>
-                <true/>
                 <key>PostNotification</key>
                 <string>com.hius.HalFiPadPrefs.settingschanged</string>
             </dict>
